@@ -1,1 +1,1 @@
-web:./target/release/webapp
+web ./target/release/webapp
