@@ -1,12 +1,21 @@
-#![feature(proc_macro_hygiene, decl_macro)]
+use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 
-#[macro_use] extern crate rocket;
-
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
+async fn index() -> impl Responder {
+    HttpResponse::Ok().body("Hello world!")
 }
 
-fn main() {
-    rocket::ignite().mount("/", routes![index]).launch();
+async fn index2() -> impl Responder {
+    HttpResponse::Ok().body("Hello world again!")
+}
+
+#[actix_rt::main]
+async fn main() -> std::io::Result<()> {
+    HttpServer::new(|| {
+        App::new()
+            .route("/", web::get().to(index))
+            .route("/again", web::get().to(index2))
+    })
+    .bind("0.0.0.0:8088")?
+    .run()
+    .await
 }
