@@ -1,1 +1,1 @@
-web ./target/release/my-cool-web-app
+web ./target/release/webapp
