@@ -1,1 +1,1 @@
-web: ./target/debug/webapp
+web: ./target/release/webapp
