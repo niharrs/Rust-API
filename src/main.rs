@@ -1,25 +1,13 @@
 mod models;
 mod config;
+mod handlers;
 
 use crate::models::Status;
 
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use std::env;
 use dotenv::dotenv;
-
-async fn index() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
-}
-
-async fn index2() -> impl Responder {
-    HttpResponse::Ok().body("Hello world again!")
-}
-
-async fn status() -> impl Responder {
-    HttpResponse::Ok().json(Status {
-        status: "200".to_string()
-    })
-}
+use tokio_postgres::NoTls;
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
@@ -29,8 +17,11 @@ async fn main() -> std::io::Result<()> {
 
     let config = crate::config::Config::from_env().unwrap();
 
-    HttpServer::new(|| {
+    let pool = config.pg.create_pool(NoTls).unwrap();
+
+    HttpServer::new(move || {
         App::new()
+            .data(pool.clone())
             .route("/", web::get().to(index))
             .route("/again", web::get().to(index2))
             .route("/status", web::get().to(status))
