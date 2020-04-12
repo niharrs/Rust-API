@@ -1,6 +1,7 @@
 mod models;
 mod config;
 mod handlers;
+mod db;
 
 use crate::models::Status;
 
@@ -34,6 +35,7 @@ async fn main() -> std::io::Result<()> {
             .route("/", web::get().to(index))
             .route("/again", web::get().to(index2))
             .route("/status", web::get().to(status))
+            .route("/todos {_:/?}", web::get().to(get_todos))
     })
     .bind(format!("{}:{}", config.server.host, config.server.port))?
     .run()
