@@ -16,6 +16,7 @@ pub async fn get_todos(db_pool: web::Data<Pool>) -> impl Responder {
 
     match result {
         Ok(todos) => HttpResponse::Ok().json(todos),
+        
         Err(_) => HttpResponse::InternalServerError().into()
     }
 }
