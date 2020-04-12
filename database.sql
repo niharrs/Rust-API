@@ -15,4 +15,5 @@ create table todo_item (
 );
 
 insert into todo_list (title) values ('List 1'), ('List 2');
+
 insert into todo_item (title, list_id) values ('Connect to database', 1), ('Do queries', 1);
