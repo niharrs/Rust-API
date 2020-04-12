@@ -8,6 +8,15 @@ use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use std::env;
 use dotenv::dotenv;
 use tokio_postgres::NoTls;
+use crate::handlers::*;
+
+pub async fn index() -> impl Responder {
+    HttpResponse::Ok().body("Hello world!")
+}
+
+pub async fn index2() -> impl Responder {
+    HttpResponse::Ok().body("Hello world again!")
+}
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
